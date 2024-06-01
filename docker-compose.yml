@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  terraform:
+    image: hashicorp/terraform:1.6
+    volumes:
+      - .:/terraform
+    working_dir: /
+    environment:
+       AWS_ACCESS_KEY_ID: ${AWS_SECRET_ACCESS_KEY}
+       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
