@@ -1,17 +1,6 @@
 name: DESTROY
 on:
   workflow_dispatch:
-    inputs:
-      run_first_step:
-        description: 'Run the first step'
-        required: false
-        default: false
-        type: boolean
-      run_second_step:
-        description: 'Run the second step'
-        required: false
-        default: false
-        type: boolean
 env:
   AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID_DEV}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY_DEV}}
@@ -36,12 +25,8 @@ jobs:
         run: terraform validate
       - name: Select workspace
         run: terraform workspace select dev
-      - name: First Step
-        if: github.event.inputs.run_first_step == true
-        run: echo "Running the first step."
-  
       - name: Second Step
-        if: github.event.inputs.run_second_step == true
+        if: github.event.inputs.continue == 'true'
         run: echo "Running the second step."
       # - name: Destroy
       #   run: terraform destroy -auto-approve
