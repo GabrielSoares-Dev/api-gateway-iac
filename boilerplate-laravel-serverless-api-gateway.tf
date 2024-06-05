@@ -4,7 +4,7 @@ resource "aws_apigatewayv2_api" "boilerplate_laravel_serverless_10_api_gw" {
 }
 
 resource "aws_apigatewayv2_stage" "boilerplate_laravel_serverless_stage" {
-  api_id      = aws_apigatewayv2_api.boilerplate_laravel_serverless_api_gw.id
+  api_id      = aws_apigatewayv2_api.boilerplate_laravel_serverless_10_api_gw.id
   name        = "$default"
   auto_deploy = true
 
