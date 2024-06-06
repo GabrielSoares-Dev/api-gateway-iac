@@ -13,8 +13,18 @@ resource "aws_apigatewayv2_stage" "boilerplate_laravel_serverless_stage" {
   }
 }
 
-resource "aws_ssm_parameter" "boilerplate_laravel_serverless_10_ssm_api_gw_id" {
-  name  = "/${lower(var.environment)}/api-gw/boilerplate-laravel-10-serverless/id"
-  type  = "SecureString"
-  value = aws_apigatewayv2_api.boilerplate_laravel_serverless_10_api_gw.id
+resource "aws_apigatewayv2_domain_name" "boilerplate_laravel_serverless_10_api_gw_domain" {
+  domain_name = "${var.environment}.${var.domain}"
+
+  domain_name_configuration {
+    certificate_arn = data.aws_acm_certificate.boilerplate_laravel_certificate.arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+}
+
+resource "aws_apigatewayv2_api_mapping" "boilerplate_laravel_serverless_10_api_gw_mapping" {
+  api_id      = aws_apigatewayv2_api.boilerplate_laravel_serverless_10_api_gw.id
+  domain_name = aws_apigatewayv2_domain_name.boilerplate_laravel_serverless_10_api_gw_domain.id
+  stage       = aws_apigatewayv2_stage.boilerplate_laravel_serverless_stage.id
 }
