@@ -14,7 +14,7 @@ resource "aws_apigatewayv2_stage" "boilerplate_laravel_serverless_stage" {
 }
 
 resource "aws_apigatewayv2_domain_name" "boilerplate_laravel_serverless_10_api_gw_domain" {
-  domain_name = "${var.environment}.${var.domain}"
+  domain_name = "${lower(var.environment)}.${var.domain}"
 
   domain_name_configuration {
     certificate_arn = data.aws_acm_certificate.boilerplate_laravel_certificate.arn
