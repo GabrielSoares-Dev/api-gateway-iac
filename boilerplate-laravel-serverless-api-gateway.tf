@@ -1,6 +1,7 @@
 resource "aws_apigatewayv2_api" "boilerplate_laravel_serverless_10_api_gw" {
-  name          = "${lower(var.environment)}-boilerplate-laravel-10-serverless"
-  protocol_type = "HTTP"
+  name                         = "${lower(var.environment)}-boilerplate-laravel-10-serverless"
+  protocol_type                = "HTTP"
+  disable_execute_api_endpoint = true
 }
 
 resource "aws_apigatewayv2_stage" "boilerplate_laravel_serverless_stage" {
