@@ -5,5 +5,5 @@ variable "environment" {
 
 variable "domain" { 
   type = string
-  default = "school-guardian.net.br"
+  default = "gabrieltest.shop"
 }
