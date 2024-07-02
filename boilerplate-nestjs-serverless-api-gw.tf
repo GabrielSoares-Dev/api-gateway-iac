@@ -1,5 +1,5 @@
 resource "aws_apigatewayv2_api" "boilerplate_nestjs_serverless_api_gw" {
-  name                         = "${lower(var.environment)}-boilerplate_nestjs_serverless"
+  name                         = "${lower(var.environment)}-boilerplate-nestjs-serverless"
   protocol_type                = "HTTP"
   disable_execute_api_endpoint = true
 }
