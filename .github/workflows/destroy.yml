@@ -4,7 +4,6 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID_DEV}}
   AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY_DEV}}
-  TF_VAR_environment: DEV
 jobs:
   terraform:
     runs-on: ubuntu-latest
@@ -26,4 +25,4 @@ jobs:
       - name: Select workspace
         run: terraform workspace select dev
       - name: Destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file="env/dev.tfvars"
