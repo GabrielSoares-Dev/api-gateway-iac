@@ -1,45 +1,14 @@
 name: DEPLOY - PROD
 on:
   workflow_dispatch:
-env:
-  AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID_PROD}}
-  AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY_PROD}}
 jobs:
   terraform:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.2.0"
-      - name: Init
-        run: terraform init
-      - name: Validate
-        run: terraform validate
-      - name: Select or Create Workspace
-        run: |
-          set -e
-
-          WORKSPACE_NAME="prod"
-
-          # List existing workspaces
-          WORKSPACES=$(terraform workspace list)
-
-          # Check if the desired workspace exists
-          if echo "$WORKSPACES" | grep -q "\b${WORKSPACE_NAME}\b"; then
-            echo "Workspace ${WORKSPACE_NAME} exists. Selecting..."
-            terraform workspace select "${WORKSPACE_NAME}"
-          else
-            echo "Workspace ${WORKSPACE_NAME} does not exist. Creating..."
-            terraform workspace new "${WORKSPACE_NAME}"
-          fi
-      - name: Plan
-        run: terraform plan -out plan.out -var-file="env/prod.tfvars"
-      - name: Apply
-        run: terraform apply plan.out
+    name: deploy
+    uses: GabrielSoares-Dev/workflows/.github/workflows/terraform-deploy.yml@master
+    with:
+      work_dir: ./
+      environment: prod
+      env_vars_path: env/prod.tfvars
+    secrets:
+      aws_access_key_id: ${{secrets.AWS_ACCESS_KEY_ID_PROD}}
+      aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY_PROD}}
